@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Random Catgirl</title>
+  </head>
+  <body>
+  
+    <script>
+      //query catgirl from google images
+      let query = 'catgirl';
+
+      //store image urls from google images
+      let imgUrls = [];
+
+      // get the urls from google
+      function getImgUrls() {
+        let xhr = new XMLHttpRequest();
+        let url = `https://www.google.com/search?q=${query}&tbm=isch`;
+
+        xhr.open('GET', url);
+        xhr.send();
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            let html = xhr.response;
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, 'text/html');
+            imgUrls = [...doc.querySelectorAll('img')].map(img => img.src);
+            console.log(imgUrls);
+            console.log('urls fetched !');
+
+            // choose a random image and update the img element
+            let random = Math.floor(Math.random() * imgUrls.length);
+            document.getElementById('catgirl-img').src = imgUrls[random];
+          }
+        };
+      }
+
+      // fetch the images
+      getImgUrls();
+    </script>
+
+    <!-- image element -->
+    <img id='catgirl-img' />
+  </body>
+</html>
