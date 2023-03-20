@@ -1,44 +1,22 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Random Catgirl</title>
-  </head>
-  <body>
-  
+<head>
+    <title>Random Neko Image</title>
+</head>
+<body>
+    <img id="neko-image" src="" alt="Neko Image">
+    <button onclick="getNekoImage()">Get Random Neko Image</button>
+    
     <script>
-      //query catgirl from google images
-      let query = 'catgirl';
-
-      //store image urls from google images
-      let imgUrls = [];
-
-      // get the urls from google
-      function getImgUrls() {
-        let xhr = new XMLHttpRequest();
-        let url = `https://www.google.com/search?q=${query}&tbm=isch`;
-
-        xhr.open('GET', url);
-        xhr.send();
-        xhr.onload = function() {
-          if (xhr.status === 200) {
-            let html = xhr.response;
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(html, 'text/html');
-            imgUrls = [...doc.querySelectorAll('img')].map(img => img.src);
-            console.log(imgUrls);
-            console.log('urls fetched !');
-
-            // choose a random image and update the img element
-            let random = Math.floor(Math.random() * imgUrls.length);
-            document.getElementById('catgirl-img').src = imgUrls[random];
-          }
-        };
-      }
-
-      // fetch the images
-      getImgUrls();
+        function getNekoImage() {
+            fetch('https://nekos.life/api/v2/img/neko')
+                .then(response => response.json())
+                .then(data => {
+                    const nekoImage = document.getElementById('neko-image');
+                    nekoImage.src = data.url;
+                })
+                .catch(error => console.error(error));
+        }
     </script>
-
-    <!-- image element -->
-    <img id='catgirl-img' />
-  </body>
+</body>
 </html>
