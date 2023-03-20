@@ -1,22 +1,38 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Random Neko Image</title>
-</head>
-<body>
-    <img id="neko-image" src="" alt="Neko Image">
-    <button onclick="getNekoImage()">Get Random Neko Image</button>
-    
+  <head>
+    <title>Neko Images</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOUfLckvbXalQJoOq5C5MvxFfpGUKfFQ9WO8wpeU6zO9ivN" crossorigin="anonymous">
+    <style>
+      .container {
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Neko Images</h1>
+      <div class="row" id="image-row"></div>
+    </div>
     <script>
-        function getNekoImage() {
-            fetch('https://nekos.life/api/v2/img/neko')
-                .then(response => response.json())
-                .then(data => {
-                    const nekoImage = document.getElementById('neko-image');
-                    nekoImage.src = data.url;
-                })
-                .catch(error => console.error(error));
-        }
+      const url = "https://nekos.life/api/v2/img/neko";
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.url;
+          const imageHtml = `
+            <div class="col-sm-6 col-md-3 mb-3">
+              <div class="card">
+                <img class="card-img-top" src="${imageUrl}" alt="Neko">
+              </div>
+            </div>
+          `;
+          document.querySelector("#image-row").innerHTML = imageHtml;
+        })
+        .catch(error => console.log(error));
     </script>
-</body>
+  </body>
 </html>
