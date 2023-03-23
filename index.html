@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Neko Images</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-OgVRvuATP1z7JjHLkuOUfLckvbXalQJoOq5C5MvxFfpGUKfFQ9WO8wpeU6zO9ivN" crossorigin="anonymous">
-    <style>
-      .container {
-        margin-top: 50px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Neko Images</h1>
-      <div class="row" id="image-row"></div>
-    </div>
-    <script>
-      const url = "https://nekos.life/api/v2/img/neko";
+<head>
+	<title>Random Neko Image</title>
+	<!-- Include Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card">
+					<img id="neko-image" class="card-img-top" src="" alt="Neko Image">
+					<div class="card-body text-center">
+						<button class="btn btn-primary" onclick="getNekoImage()">Get Random Neko Image</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Include Bootstrap JS and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          const imageUrl = data.url;
-          const imageHtml = `
-            <div class="col-sm-6 col-md-3 mb-3">
-              <div class="card">
-                <img class="card-img-top" src="${imageUrl}" alt="Neko">
-              </div>
-            </div>
-          `;
-          document.querySelector("#image-row").innerHTML = imageHtml;
-        })
-        .catch(error => console.log(error));
-    </script>
-  </body>
+	<script>
+		function getNekoImage() {
+			fetch('https://nekos.life/api/v2/img/neko')
+				.then(response => response.json())
+				.then(data => {
+					const nekoImage = document.getElementById('neko-image');
+					nekoImage.src = data.url;
+				})
+				.catch(error => console.error(error));
+		}
+	</script>
+</body>
 </html>
